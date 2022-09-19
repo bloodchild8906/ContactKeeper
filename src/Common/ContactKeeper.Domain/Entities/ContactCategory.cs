@@ -1,16 +1,15 @@
 ﻿using ContactKeeper.Domain.Common;
 using System;
+using System.Collections.Generic;
 
 namespace ContactKeeper.Domain.Entities
 {
     public class ContactCategory : AuditableEntity
     {
-        public int Id { get; set; }
-
+        public Guid Id { get; set; }
         public string Name { get; set; }
-
-        public int DistrictId { get; set; }
-        public District District { get; set; }
-
+        public ContactEntity ParentEntity { get; set; }
+        public List<UserRole> CanBeUsedByRoles { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
