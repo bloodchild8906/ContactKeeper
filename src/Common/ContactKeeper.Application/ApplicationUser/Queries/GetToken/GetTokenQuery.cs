@@ -25,6 +25,8 @@ namespace ContactKeeper.Application.ApplicationUser.Queries.GetToken
 
         public async Task<ServiceResult<LoginResponse>> Handle(GetTokenQuery request, CancellationToken cancellationToken)
         {
+
+            //todo: validate user here 
             var user = await _identityService.CheckUserPassword(request.Email, request.Password);
 
             if (user == null)

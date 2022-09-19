@@ -4,6 +4,8 @@ namespace ContactKeeper.Application.ApplicationUser.Queries.GetToken
 {
     public class GetTokenQueryValidator : AbstractValidator<GetTokenQuery>
     {
+
+        //todo: setup login validators
         public GetTokenQueryValidator()
         {
             RuleFor(v => v.Email)
