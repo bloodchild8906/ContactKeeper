@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ContactKeeper.Domain.Exceptions;
+using PhoneNumbers;
+using System;
 using System.Text.RegularExpressions;
 using ValueOf;
 
@@ -6,14 +8,35 @@ namespace ContactKeeper.Domain.ValueObjects
 {
     public class PhoneNumber : ValueOf<string, PhoneNumber>
     {
-        private static Regex PhoneNumberRegex => new("^\\+?[1-9][0-9]{7,14}$", RegexOptions.IgnoreCase);
+        private static bool IsValidNumber(string aNumber)
+        {
+            bool result = false;
 
-        private bool PhoneNumberIsValid(string phoneNumber) => PhoneNumberRegex.IsMatch(phoneNumber);
+            aNumber = aNumber.Trim();
+
+            if (aNumber.StartsWith("00"))
+            {
+                // Replace 00 at beginning with +
+                aNumber = "+" + aNumber.Remove(0, 2);
+            }
+
+            try
+            {
+                result = PhoneNumberUtil.IsViablePhoneNumber(aNumber);
+            }
+            catch
+            {
+
+                // Exception means is no valid number
+            }
+
+            return result;
+        }
 
         protected override void Validate()
         {
-            if (!PhoneNumberIsValid(Value))
-                throw new ArgumentException("The Input string is not a valid email address");
+            if (!IsValidNumber(Value))
+                throw new PhoneNumberException(Value);
         }
     }
 }
