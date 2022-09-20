@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 
-namespace ContactKeeper.Application.Districts.Commands.Create
+namespace ContactKeeper.Application.Districts.Commands.Create;
+
+public class CreateDistrictCommandValidator : AbstractValidator<CreateDistrictCommand>
 {
-    public class CreateDistrictCommandValidator : AbstractValidator<CreateDistrictCommand>
+    public CreateDistrictCommandValidator()
     {
-        public CreateDistrictCommandValidator()
-        {
-            RuleFor(v => v.Name)
-                .MaximumLength(100).WithMessage("Name must not exceed 100 characters.")
-                .NotEmpty().WithMessage("Name is required.");
-        }
+        RuleFor(v => v.Name)
+            .MaximumLength(100).WithMessage("Name must not exceed 100 characters.")
+            .NotEmpty().WithMessage("Name is required.");
     }
 }

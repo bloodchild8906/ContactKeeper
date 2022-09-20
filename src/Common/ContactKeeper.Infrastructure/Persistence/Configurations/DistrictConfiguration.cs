@@ -2,18 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ContactKeeper.Infrastructure.Persistence.Configurations
-{
-    public class DistrictConfiguration : IEntityTypeConfiguration<District>
-    {
-        public void Configure(EntityTypeBuilder<District> builder)
-        {
-            builder.Property(t => t.Name)
-                .HasMaxLength(200)
-                .IsRequired();
+namespace ContactKeeper.Infrastructure.Persistence.Configurations;
 
-            builder.Property(t => t.CityId)
-                .IsRequired();
-        }
+public class DistrictConfiguration : IEntityTypeConfiguration<District>
+{
+    public void Configure(EntityTypeBuilder<District> builder)
+    {
+        builder.Property(t => t.Name)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(t => t.CityId)
+            .IsRequired();
     }
 }

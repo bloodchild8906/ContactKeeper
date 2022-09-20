@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace ContactKeeper.Domain.Common;
 
-namespace ContactKeeper.Domain.Common
+public interface IHasDomainEvent
 {
-    public interface IHasDomainEvent
+    List<DomainEvent> DomainEvents { get; set; }
+}
+
+public abstract class DomainEvent
+{
+    protected DomainEvent()
     {
-        List<DomainEvent> DomainEvents { get; set; }
+        DateOccurred = DateTimeOffset.UtcNow;
     }
 
-    public abstract class DomainEvent
-    {
-        protected DomainEvent()
-        {
-            DateOccurred = DateTimeOffset.UtcNow;
-        }
+    public DateTimeOffset DateOccurred { get; protected set; } = DateTime.UtcNow;
 
-        public DateTimeOffset DateOccurred { get; protected set; } = DateTime.UtcNow;
-
-        public bool IsPublished { get; set; }
-    }
+    public bool IsPublished { get; set; }
 }

@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using ContactKeeper.Domain.Common;
+﻿using ContactKeeper.Domain.Common;
 
-namespace ContactKeeper.Application.Common.Interfaces
+namespace ContactKeeper.Application.Common.Interfaces;
+
+public interface IDomainEventService
 {
-    public interface IDomainEventService
-    {
-        Task Publish(DomainEvent domainEvent);
-    }
+    Task Publish(DomainEvent domainEvent);
 }

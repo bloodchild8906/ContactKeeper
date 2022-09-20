@@ -7,44 +7,43 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
-namespace ContactKeeper.Application.UnitTests.Common.Behaviours
+namespace ContactKeeper.Application.UnitTests.Common.Behaviours;
+
+public class RequestLoggerTests
 {
-    public class RequestLoggerTests
+    private readonly Mock<ILogger<CreateCityCommand>> _logger;
+    private readonly Mock<ICurrentUserService> _currentUserService;
+    private readonly Mock<IIdentityService> _identityService;
+
+
+    public RequestLoggerTests()
     {
-        private readonly Mock<ILogger<CreateCityCommand>> _logger;
-        private readonly Mock<ICurrentUserService> _currentUserService;
-        private readonly Mock<IIdentityService> _identityService;
+        _logger = new Mock<ILogger<CreateCityCommand>>();
 
+        _currentUserService = new Mock<ICurrentUserService>();
 
-        public RequestLoggerTests()
-        {
-            _logger = new Mock<ILogger<CreateCityCommand>>();
+        _identityService = new Mock<IIdentityService>();
+    }
 
-            _currentUserService = new Mock<ICurrentUserService>();
+    [Test]
+    public async Task ShouldCallGetUserNameAsyncOnceIfAuthenticated()
+    {
+        _currentUserService.Setup(x => x.UserId).Returns("Administrator");
 
-            _identityService = new Mock<IIdentityService>();
-        }
+        var requestLogger = new LoggingBehaviour<CreateCityCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-        [Test]
-        public async Task ShouldCallGetUserNameAsyncOnceIfAuthenticated()
-        {
-            _currentUserService.Setup(x => x.UserId).Returns("Administrator");
+        await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
 
-            var requestLogger = new LoggingBehaviour<CreateCityCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
+        _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
+    }
 
-            await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
+    [Test]
+    public async Task ShouldNotCallGetUserNameAsyncOnceIfUnauthenticated()
+    {
+        var requestLogger = new LoggingBehaviour<CreateCityCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
-        }
+        await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
 
-        [Test]
-        public async Task ShouldNotCallGetUserNameAsyncOnceIfUnauthenticated()
-        {
-            var requestLogger = new LoggingBehaviour<CreateCityCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
-
-            await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
-
-            _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
-        }
+        _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
     }
 }

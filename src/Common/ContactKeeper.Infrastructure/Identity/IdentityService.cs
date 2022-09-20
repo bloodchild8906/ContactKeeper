@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using ContactKeeper.Application.Common.Exceptions;
+﻿using ContactKeeper.Application.Common.Exceptions;
 using ContactKeeper.Application.Common.Interfaces;
 using ContactKeeper.Application.Common.Models;
 using ContactKeeper.Application.Dto;
@@ -8,80 +6,79 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactKeeper.Infrastructure.Identity
+namespace ContactKeeper.Infrastructure.Identity;
+
+public class IdentityService : IIdentityService
 {
-    public class IdentityService : IIdentityService
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IMapper _mapper;
+
+    public IdentityService(UserManager<ApplicationUser> userManager, IMapper mapper)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMapper _mapper;
+        _userManager = userManager;
+        _mapper = mapper;
+    }
 
-        public IdentityService(UserManager<ApplicationUser> userManager, IMapper mapper)
+    public async Task<string> GetUserNameAsync(string userId)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
         {
-            _userManager = userManager;
-            _mapper = mapper;
+            throw new UnauthorizeException();
         }
 
-        public async Task<string> GetUserNameAsync(string userId)
+        return user.UserName;
+    }
+
+    public async Task<ApplicationUserDto> CheckUserPassword(string email, string password)
+    {
+        ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user != null && await _userManager.CheckPasswordAsync(user, password))
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user == null)
-            {
-                throw new UnauthorizeException();
-            }
-
-            return user.UserName;
+            return _mapper.Map<ApplicationUserDto>(user);
         }
 
-        public async Task<ApplicationUserDto> CheckUserPassword(string email, string password)
+        return null;
+    }
+
+    public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+    {
+        var user = new ApplicationUser
         {
-            ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
+            UserName = userName,
+            Email = userName,
+        };
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, password))
-            {
-                return _mapper.Map<ApplicationUserDto>(user);
-            }
+        var result = await _userManager.CreateAsync(user, password);
 
-            return null;
+        return (result.ToApplicationResult(), user.Id);
+    }
+
+    public async Task<bool> UserIsInRole(string userId, string role)
+    {
+        var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+        return await _userManager.IsInRoleAsync(user, role);
+    }
+
+    public async Task<Result> DeleteUserAsync(string userId)
+    {
+        var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+        if (user != null)
+        {
+            return await DeleteUserAsync(user);
         }
 
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = userName,
-                Email = userName,
-            };
+        return Result.Success();
+    }
 
-            var result = await _userManager.CreateAsync(user, password);
+    public async Task<Result> DeleteUserAsync(ApplicationUser user)
+    {
+        var result = await _userManager.DeleteAsync(user);
 
-            return (result.ToApplicationResult(), user.Id);
-        }
-
-        public async Task<bool> UserIsInRole(string userId, string role)
-        {
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
-
-            return await _userManager.IsInRoleAsync(user, role);
-        }
-
-        public async Task<Result> DeleteUserAsync(string userId)
-        {
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
-
-            if (user != null)
-            {
-                return await DeleteUserAsync(user);
-            }
-
-            return Result.Success();
-        }
-
-        public async Task<Result> DeleteUserAsync(ApplicationUser user)
-        {
-            var result = await _userManager.DeleteAsync(user);
-
-            return result.ToApplicationResult();
-        }
+        return result.ToApplicationResult();
     }
 }

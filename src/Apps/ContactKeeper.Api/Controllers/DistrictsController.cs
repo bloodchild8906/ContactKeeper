@@ -7,38 +7,37 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ContactKeeper.Api.Controllers
+namespace ContactKeeper.Api.Controllers;
+
+/// <summary>
+/// District
+/// </summary>
+[Authorize]
+public class DistrictsController: BaseApiController
 {
     /// <summary>
-    /// District
+    /// Get district by Id
     /// </summary>
-    [Authorize]
-    public class DistrictsController: BaseApiController
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<FileResult> Get(int id, CancellationToken cancellationToken)
     {
-        /// <summary>
-        /// Get district by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public async Task<FileResult> Get(int id, CancellationToken cancellationToken)
-        {
-            var vm = await Mediator.Send(new ExportDistrictsQuery { CityId = id }, cancellationToken);
+        var vm = await Mediator.Send(new ExportDistrictsQuery { CityId = id }, cancellationToken);
 
-            return File(vm.Content, vm.ContentType, vm.FileName);
-        }
+        return File(vm.Content, vm.ContentType, vm.FileName);
+    }
 
-        /// <summary>
-        /// Create district
-        /// </summary>
-        /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult<ServiceResult<DistrictDto>>> Create(CreateDistrictCommand command, CancellationToken cancellationToken)
-        {
-            return Ok(await Mediator.Send(command, cancellationToken));
-        }
+    /// <summary>
+    /// Create district
+    /// </summary>
+    /// <param name="command"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ActionResult<ServiceResult<DistrictDto>>> Create(CreateDistrictCommand command, CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(command, cancellationToken));
     }
 }

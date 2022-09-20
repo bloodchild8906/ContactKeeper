@@ -1,29 +1,27 @@
-﻿using System.Collections.Generic;
-using ContactKeeper.Domain.Entities;
+﻿using ContactKeeper.Domain.Entities;
 using Mapster;
 
-namespace ContactKeeper.Application.Dto
+namespace ContactKeeper.Application.Dto;
+
+public class DistrictDto : IRegister
 {
-    public class DistrictDto : IRegister
+    public DistrictDto()
     {
-        public DistrictDto()
-        {
-            Villages = new List<VillageDto>();
-        }
-        public int Id { get; set; }
+        Villages = new List<VillageDto>();
+    }
+    public int Id { get; set; }
 
-        public int CityId { get; set; }
+    public int CityId { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public IList<VillageDto> Villages { get; set; }
+    public IList<VillageDto> Villages { get; set; }
 
-        public void Register(TypeAdapterConfig config)
-        {
-            config.NewConfig<District, DistrictDto>()
-                .Map(dest => dest.Name, src => "Sig. " + src.Name, srcCond => srcCond.Name == "Karacabey")
-                .Map(dest => dest.Name, src => "Sr. " + src.Name, srcCond => srcCond.Name == "Osmangazi")
-                .Map(dest => dest.Name, src => src.Name);
-        }
+    public void Register(TypeAdapterConfig config)
+    {
+        config.NewConfig<District, DistrictDto>()
+            .Map(dest => dest.Name, src => "Sig. " + src.Name, srcCond => srcCond.Name == "Karacabey")
+            .Map(dest => dest.Name, src => "Sr. " + src.Name, srcCond => srcCond.Name == "Osmangazi")
+            .Map(dest => dest.Name, src => src.Name);
     }
 }

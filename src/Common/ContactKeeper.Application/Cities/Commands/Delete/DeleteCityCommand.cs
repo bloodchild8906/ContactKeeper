@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using ContactKeeper.Application.Common.Exceptions;
+﻿using ContactKeeper.Application.Common.Exceptions;
 using ContactKeeper.Application.Common.Interfaces;
 using ContactKeeper.Application.Common.Models;
 using ContactKeeper.Application.Dto;
@@ -9,40 +6,39 @@ using ContactKeeper.Domain.Entities;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactKeeper.Application.Cities.Commands.Delete
+namespace ContactKeeper.Application.Cities.Commands.Delete;
+
+public class DeleteCityCommand : IRequestWrapper<CityDto>
 {
-    public class DeleteCityCommand : IRequestWrapper<CityDto>
+    public int Id { get; set; }
+}
+
+public class DeleteCityCommandHandler : IRequestHandlerWrapper<DeleteCityCommand, CityDto>
+{
+    private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public DeleteCityCommandHandler(IApplicationDbContext context, IMapper mapper)
     {
-        public int Id { get; set; }
+        _context = context;
+        _mapper = mapper;
     }
 
-    public class DeleteCityCommandHandler : IRequestHandlerWrapper<DeleteCityCommand, CityDto>
+    public async Task<ServiceResult<CityDto>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        var entity = await _context.Cities
+            .Where(l => l.Id == request.Id)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        public DeleteCityCommandHandler(IApplicationDbContext context, IMapper mapper)
+        if (entity == null)
         {
-            _context = context;
-            _mapper = mapper;
+            throw new NotFoundException(nameof(City), request.Id);
         }
 
-        public async Task<ServiceResult<CityDto>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.Cities
-                .Where(l => l.Id == request.Id)
-                .SingleOrDefaultAsync(cancellationToken);
+        _context.Cities.Remove(entity);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(City), request.Id);
-            }
+        await _context.SaveChangesAsync(cancellationToken);
 
-            _context.Cities.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return ServiceResult.Success(_mapper.Map<CityDto>(entity));
-        }
+        return ServiceResult.Success(_mapper.Map<CityDto>(entity));
     }
 }

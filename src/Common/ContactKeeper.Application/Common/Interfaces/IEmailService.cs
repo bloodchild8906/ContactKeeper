@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using ContactKeeper.Application.Common.Models;
+﻿using ContactKeeper.Application.Common.Models;
 
-namespace ContactKeeper.Application.Common.Interfaces
+namespace ContactKeeper.Application.Common.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendAsync(EmailRequest request);
-    }
+    Task SendAsync(EmailRequest request);
 }

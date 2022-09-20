@@ -1,15 +1,17 @@
 ﻿using ContactKeeper.Domain.Common;
 
-namespace ContactKeeper.Domain.Entities
+namespace ContactKeeper.Domain.Entities;
+
+public class Village : AuditableEntity,IHasDomainEvent
 {
-    public class Village : AuditableEntity
+    protected Village(Guid? id=null) : base(id)
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public int DistrictId { get; set; }
-        public District District { get; set; }
 
     }
+
+    public string Name { get; set; }
+
+    public int DistrictId { get; set; }
+    public District District { get; set; }
+    public List<DomainEvent> DomainEvents { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }

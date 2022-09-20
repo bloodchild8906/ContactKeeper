@@ -1,22 +1,21 @@
 ﻿using ContactKeeper.Domain.Entities;
 using NUnit.Framework;
 
-namespace ContactKeeper.Domain.UnitTests.Entities
+namespace ContactKeeper.Domain.UnitTests.Entities;
+
+[TestFixture]
+public class NoteTests
 {
-    [TestFixture]
-    public class NoteTests
+    [Test]
+    public void TestMethod1()
     {
-        [Test]
-        public void TestMethod1()
-        {
-            // Arrange
-            var note = new Note();
+        // Arrange
+        var note = new Note();
 
-            // Act
+        // Act
 
 
-            // Assert
-            Assert.Fail();
-        }
+        // Assert
+        Assert.Fail();
     }
 }

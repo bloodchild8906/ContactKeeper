@@ -1,22 +1,21 @@
 ﻿using ContactKeeper.Domain.Entities;
 using NUnit.Framework;
 
-namespace ContactKeeper.Domain.UnitTests.Entities
+namespace ContactKeeper.Domain.UnitTests.Entities;
+
+[TestFixture]
+public class UserRoleTests
 {
-    [TestFixture]
-    public class UserRoleTests
+    [Test]
+    public void TestMethod1()
     {
-        [Test]
-        public void TestMethod1()
-        {
-            // Arrange
-            var userRole = new UserRole();
+        // Arrange
+        var userRole = new UserRole();
 
-            // Act
+        // Act
 
 
-            // Assert
-            Assert.Fail();
-        }
+        // Assert
+        Assert.Fail();
     }
 }

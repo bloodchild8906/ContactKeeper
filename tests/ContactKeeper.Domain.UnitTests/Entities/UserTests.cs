@@ -1,22 +1,16 @@
 ﻿using ContactKeeper.Domain.Entities;
 using NUnit.Framework;
 
-namespace ContactKeeper.Domain.UnitTests.Entities
+namespace ContactKeeper.Domain.UnitTests.Entities;
+
+[TestFixture]
+public class UserTests
 {
-    [TestFixture]
-    public class UserTests
+    [Test]
+    public void CreateEntity()
     {
-        [Test]
-        public void TestMethod1()
-        {
-            // Arrange
-            var user = new User();
-
-            // Act
-
-
-            // Assert
-            Assert.Fail();
-        }
+        //todo: set up the entities with default values
+        var user = new User();
+        Assert.Fail();
     }
 }

@@ -7,35 +7,34 @@ using FluentAssertions;
 using NUnit.Framework;
 using static ContactKeeper.Application.IntegrationTests.Testing;
 
-namespace ContactKeeper.Application.IntegrationTests.Cities.Commands
+namespace ContactKeeper.Application.IntegrationTests.Cities.Commands;
+
+public class DeleteCityTests : TestBase
 {
-    public class DeleteCityTests : TestBase
+    [Test]
+    public void ShouldRequireValidCityId()
     {
-        [Test]
-        public void ShouldRequireValidCityId()
+        var command = new DeleteCityCommand { Id = 99 };
+
+        FluentActions.Invoking(() =>
+            SendAsync(command)).Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Test]
+    public async Task ShouldDeleteCity()
+    {
+        var city = await SendAsync(new CreateCityCommand
         {
-            var command = new DeleteCityCommand { Id = 99 };
+            Name = "Kayseri"
+        });
 
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().ThrowAsync<NotFoundException>();
-        }
-
-        [Test]
-        public async Task ShouldDeleteCity()
+        await SendAsync(new DeleteCityCommand
         {
-            var city = await SendAsync(new CreateCityCommand
-            {
-                Name = "Kayseri"
-            });
+            Id = city.Data.Id
+        });
 
-            await SendAsync(new DeleteCityCommand
-            {
-                Id = city.Data.Id
-            });
+        var list = await FindAsync<City>(city.Data.Id);
 
-            var list = await FindAsync<City>(city.Data.Id);
-
-            list.Should().BeNull();
-        }
+        list.Should().BeNull();
     }
 }

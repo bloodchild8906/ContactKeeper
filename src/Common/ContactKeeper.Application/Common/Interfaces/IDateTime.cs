@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace ContactKeeper.Application.Common.Interfaces;
 
-namespace ContactKeeper.Application.Common.Interfaces
+public interface IDateTime
 {
-    public interface IDateTime
-    {
-        DateTime Now { get; }
-    }
+    DateTime Now { get; }
 }

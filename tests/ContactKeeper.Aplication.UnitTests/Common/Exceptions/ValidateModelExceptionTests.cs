@@ -3,17 +3,16 @@ using ContactKeeper.Application.Common.Exceptions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace ContactKeeper.Application.UnitTests.Common.Exceptions
+namespace ContactKeeper.Application.UnitTests.Common.Exceptions;
+
+public class ValidateModelExceptionTests
 {
-    public class ValidateModelExceptionTests
+    [Test]
+    public void DefaultConstructorCreatesAnEmptyErrorDictionary()
     {
-        [Test]
-        public void DefaultConstructorCreatesAnEmptyErrorDictionary()
-        {
-            var actual = new ValidateModelException().Errors;
+        var actual = new ValidateModelException().Errors;
 
-            actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
-        }
-
+        actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
     }
+
 }

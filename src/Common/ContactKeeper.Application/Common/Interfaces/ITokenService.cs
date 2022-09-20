@@ -1,7 +1,6 @@
-﻿namespace ContactKeeper.Application.Common.Interfaces
+﻿namespace ContactKeeper.Application.Common.Interfaces;
+
+public interface ITokenService
 {
-    public interface ITokenService
-    {
-        string CreateJwtSecurityToken(string id);
-    }
+    string CreateJwtSecurityToken(string id);
 }

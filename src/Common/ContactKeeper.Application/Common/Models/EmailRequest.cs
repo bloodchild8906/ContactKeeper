@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿namespace ContactKeeper.Application.Common.Models;
 
-namespace ContactKeeper.Application.Common.Models
+public class EmailRequest
 {
-    public class EmailRequest
-    {
-        public string FromMail { get; set; }
-        public string FromDisplayName { get; set; }
-        public List<string> ToMail { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public bool IsHtml { get; set; }
-    }
+    public string FromMail { get; set; }
+    public string FromDisplayName { get; set; }
+    public List<string> ToMail { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
+    public bool IsHtml { get; set; }
 }

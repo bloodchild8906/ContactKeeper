@@ -2,14 +2,13 @@
 using ContactKeeper.Application.Dto;
 using CsvHelper.Configuration;
 
-namespace ContactKeeper.Infrastructure.Files.Maps
+namespace ContactKeeper.Infrastructure.Files.Maps;
+
+public sealed class DistrictMap : ClassMap<DistrictDto>
 {
-    public sealed class DistrictMap : ClassMap<DistrictDto>
+    public DistrictMap()
     {
-        public DistrictMap()
-        {
-            AutoMap(CultureInfo.InvariantCulture);
-            Map(m => m.Villages).Convert(_ => "");
-        }
+        AutoMap(CultureInfo.InvariantCulture);
+        Map(m => m.Villages).Convert(_ => "");
     }
 }

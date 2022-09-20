@@ -1,6 +1,3 @@
-﻿using System;
+﻿namespace ContactKeeper.Domain.Enums;
 
-namespace ContactKeeper.Domain.Enums
-{
-    public enum ContactTypes { Company, Department, Individual }
-}
+public enum ContactTypes { Company, Department, Individual }

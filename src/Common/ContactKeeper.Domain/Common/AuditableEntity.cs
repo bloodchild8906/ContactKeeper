@@ -1,16 +1,13 @@
-﻿using System;
+﻿namespace ContactKeeper.Domain.Common;
 
-namespace ContactKeeper.Domain.Common
+public abstract class AuditableEntity: IHasDomainEvent
 {
-    public abstract class AuditableEntity
+    protected AuditableEntity(Guid? id=null)
     {
-        public string Creator { get; set; }
-
-        public DateTime CreateDate { get; set; }
-
-        public string Modifier { get; set; }
-
-        public DateTime? ModifyDate { get; set; }
-
+        Id = id??new Guid();
     }
+
+    public Guid Id { get; init; }
+    public bool IsDeleted { get; set; } = false;
+    public virtual List<DomainEvent> DomainEvents { get; set; } = new List<DomainEvent>();
 }

@@ -1,11 +1,10 @@
-﻿namespace ContactKeeper.Application.Dto
+﻿namespace ContactKeeper.Application.Dto;
+
+public class VillageDto
 {
-    public class VillageDto
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public int DistrictId { get; set; }
+    public int DistrictId { get; set; }
 
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

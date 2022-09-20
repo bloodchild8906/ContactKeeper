@@ -1,15 +1,14 @@
 ﻿using ContactKeeper.Application.Common.Models;
 using MediatR;
 
-namespace ContactKeeper.Application.Common.Interfaces
+namespace ContactKeeper.Application.Common.Interfaces;
+
+public interface IRequestWrapper<T> : IRequest<ServiceResult<T>>
 {
-    public interface IRequestWrapper<T> : IRequest<ServiceResult<T>>
-    {
 
-    }
+}
 
-    public interface IRequestHandlerWrapper<TIn, TOut> : IRequestHandler<TIn, ServiceResult<TOut>> where TIn : IRequestWrapper<TOut>
-    {
+public interface IRequestHandlerWrapper<TIn, TOut> : IRequestHandler<TIn, ServiceResult<TOut>> where TIn : IRequestWrapper<TOut>
+{
 
-    }
 }

@@ -1,6 +1,3 @@
-﻿using System;
+﻿namespace ContactKeeper.Domain.Enums;
 
-namespace ContactKeeper.Domain.Enums
-{
-    public enum NoteTypes { General, Reminder, Actionable }
-}
+public enum NoteTypes { General, Reminder, Actionable }
