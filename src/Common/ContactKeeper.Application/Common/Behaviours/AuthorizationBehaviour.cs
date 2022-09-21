@@ -25,12 +25,12 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
+        IEnumerable<AuthorizeAttribute> authorizeAttributes = request!.GetType().GetCustomAttributes<AuthorizeAttribute>();
 
         if (authorizeAttributes.Any())
         {
             // Must be authenticated user
-            if (_currentUserService.UserId == null)
+            if (_currentUserService.UserId.Equals(null))
             {
                 throw new UnauthorizedAccessException();
             }

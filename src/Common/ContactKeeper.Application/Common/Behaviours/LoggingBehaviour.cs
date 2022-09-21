@@ -20,13 +20,9 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = _currentUserService.UserId ?? string.Empty;
-        string userName = string.Empty;
-
-        if (!string.IsNullOrEmpty(userId))
-        {
-            userName = await _identityService.GetUserNameAsync(userId);
-        }
+        var userId = _currentUserService.UserId;
+        string userName = await _identityService.GetUserNameAsync(userId);
+        
 
         _logger.LogInformation("Matech.ContactKeeper Request: {Name} {@UserId} {@UserName} {@Request}",
             requestName, userId, userName, request);

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using ContactKeeper.Application.ApplicationUser.Queries.GetToken;
 using ContactKeeper.Application.Common.Models;
+using ContactKeeper.Application.Users.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactKeeper.Api.Controllers;

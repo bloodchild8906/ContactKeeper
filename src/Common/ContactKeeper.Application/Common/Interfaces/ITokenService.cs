@@ -2,5 +2,5 @@
 
 public interface ITokenService
 {
-    string CreateJwtSecurityToken(string id);
+    string CreateJwtSecurityToken(Guid id);
 }

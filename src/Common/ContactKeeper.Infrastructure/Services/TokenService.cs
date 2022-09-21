@@ -16,11 +16,11 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string CreateJwtSecurityToken(string id)
+    public string CreateJwtSecurityToken(Guid id)
     {
         var authClaims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, id),
+            new Claim(ClaimTypes.NameIdentifier, id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

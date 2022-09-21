@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ContactKeeper.Application.Cities.Commands.Create;
 using ContactKeeper.Application.Common.Behaviours;
@@ -28,13 +29,13 @@ public class RequestLoggerTests
     [Test]
     public async Task ShouldCallGetUserNameAsyncOnceIfAuthenticated()
     {
-        _currentUserService.Setup(x => x.UserId).Returns("Administrator");
+        _currentUserService.Setup(x => x.UserId).Returns(new System.Guid());
 
         var requestLogger = new LoggingBehaviour<CreateCityCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
         await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
 
-        _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
+        _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Once);
     }
 
     [Test]
@@ -44,6 +45,6 @@ public class RequestLoggerTests
 
         await requestLogger.Process(new CreateCityCommand { Name = "Bursa" }, new CancellationToken());
 
-        _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
+        _identityService.Verify(i => i.GetUserNameAsync(Guid.Empty), Times.Never);
     }
 }

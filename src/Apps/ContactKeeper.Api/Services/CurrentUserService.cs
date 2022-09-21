@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using ContactKeeper.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -23,5 +24,5 @@ public class CurrentUserService : ICurrentUserService
     /// <summary>
     /// Current userId
     /// </summary>
-    public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public Guid UserId => new Guid(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier));
 }
