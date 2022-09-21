@@ -11,7 +11,7 @@ public class GetCurrentWeatherForecastQuery : IRequestWrapper<CurrentWeatherFore
     public string Q { get; set; }
     public double Lat { get; set; }
     public double Lon { get; set; }
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetCurrentWeatherForecastQueryHandler : IRequestHandlerWrapper<GetCurrentWeatherForecastQuery, CurrentWeatherForecastDto>

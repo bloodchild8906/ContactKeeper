@@ -1,10 +1,8 @@
 ﻿using ContactKeeper.Domain.Common;
-
 namespace ContactKeeper.Domain.Entities;
 
 public class User : AuditableEntity, IHasDomainEvent
 {
-    public string UserId { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
     public DateTime CreatedOn { get; set; }

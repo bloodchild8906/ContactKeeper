@@ -11,7 +11,7 @@ namespace ContactKeeper.Application.Districts.Queries;
 [Authorize(Roles = "Administrator")]
 public class ExportDistrictsQuery : IRequest<ExportDto>
 {
-    public int CityId { get; set; }
+    public Guid CityId { get; set; }
 }
 
 public class ExportDistrictsQueryHandler : IRequestHandler<ExportDistrictsQuery, ExportDto>
@@ -32,7 +32,7 @@ public class ExportDistrictsQueryHandler : IRequestHandler<ExportDistrictsQuery,
         var result = new ExportDto();
 
         var records = await _context.Districts
-            .Where(t => t.CityId == request.CityId)
+            .Where(t => t.CityId.Equals(request.CityId))
             .ProjectToType<DistrictDto>(_mapper.Config)
             .ToListAsync(cancellationToken);
 

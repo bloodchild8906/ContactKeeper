@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ContactKeeper.Application.Cities.Commands.Create;
@@ -38,7 +39,7 @@ public class CitiesController : BaseApiController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<ServiceResult<CityDto>>> GetCityById(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ServiceResult<CityDto>>> GetCityById(Guid id, CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetCityByIdQuery { CityId = id }, cancellationToken));
     }
@@ -74,7 +75,7 @@ public class CitiesController : BaseApiController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ServiceResult<CityDto>>> Delete(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ServiceResult<CityDto>>> Delete(Guid id, CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new DeleteCityCommand { Id = id }, cancellationToken));
     }

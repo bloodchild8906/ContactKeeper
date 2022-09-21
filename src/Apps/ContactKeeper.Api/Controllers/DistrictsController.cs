@@ -4,6 +4,7 @@ using ContactKeeper.Application.Districts.Queries;
 using ContactKeeper.Application.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ public class DistrictsController: BaseApiController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<FileResult> Get(int id, CancellationToken cancellationToken)
+    public async Task<FileResult> Get(Guid id, CancellationToken cancellationToken)
     {
         var vm = await Mediator.Send(new ExportDistrictsQuery { CityId = id }, cancellationToken);
 

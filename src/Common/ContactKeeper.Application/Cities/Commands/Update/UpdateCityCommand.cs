@@ -9,7 +9,7 @@ namespace ContactKeeper.Application.Cities.Commands.Update;
 
 public class UpdateCityCommand : IRequestWrapper<CityDto>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
 

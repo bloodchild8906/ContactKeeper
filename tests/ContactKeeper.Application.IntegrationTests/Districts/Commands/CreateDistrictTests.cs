@@ -28,6 +28,7 @@ public class CreateDistrictTests
     {
         var city = await SendAsync(new CreateCityCommand
         {
+            Id=new Guid(),
             Name = "Bursa"
         });
 
@@ -45,7 +46,5 @@ public class CreateDistrictTests
 
         list.Should().NotBeNull();
         list.Name.Should().Be(command.Name);
-        list.Creator.Should().Be(userId);
-        list.CreateDate.Should().BeCloseTo(DateTime.Now, 10.Seconds());
     }
 }

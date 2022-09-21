@@ -18,7 +18,7 @@ public class UpdateCityTests : TestBase
     {
         var command = new UpdateCityCommand
         {
-            Id = 99,
+            Id = new Guid(),
             Name = "Kayseri"
         };
 
@@ -72,9 +72,5 @@ public class UpdateCityTests : TestBase
         var city = await FindAsync<City>(result.Data.Id);
 
         city.Name.Should().Be(command.Name);
-        city.Modifier.Should().NotBeNull();
-        city.Modifier.Should().Be(userId);
-        city.ModifyDate.Should().NotBeNull();
-        city.ModifyDate.Should().BeCloseTo(DateTime.Now, 10.Seconds());
     }
 }

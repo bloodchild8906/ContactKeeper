@@ -46,9 +46,7 @@ public static class DependencyInjection
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        services.AddIdentityServer()
-            .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
+        
         services.AddHttpClient("open-weather-api", c =>
         {
             c.BaseAddress = new Uri(configuration.GetSection("OpenWeatherApi:Url").Value);
@@ -58,7 +56,7 @@ public static class DependencyInjection
             c.DefaultRequestHeaders.Add(configuration.GetSection("OpenWeatherApi:Host:Key").Value, configuration.GetSection("OpenWeatherApi:Host:Value").Value);
         });
 
-        services.AddTransient<IHttpClientHandler, HttpClientHandler>();
+        services.AddTransient<IHttpClientHandler, Services.Handlers.HttpClientHandler>();
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<IEmailService, EmailService>();

@@ -9,6 +9,7 @@ namespace ContactKeeper.Application.Cities.Commands.Create;
 
 public class CreateCityCommand : IRequestWrapper<CityDto>
 {
+    public Guid Id;
     public string Name { get; set; }
 }
 

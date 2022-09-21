@@ -28,7 +28,7 @@ public class GetAllVillagesWithPaginationQueryHandler : IRequestHandlerWrapper<G
     public async Task<ServiceResult<PaginatedList<VillageDto>>> Handle(GetAllVillagesWithPaginationQuery request, CancellationToken cancellationToken)
     {
         PaginatedList<VillageDto> list = await _context.Villages
-            .Where(x => x.DistrictId == request.DistrictId)
+            .Where(x => x.DistrictId.Equals(request.DistrictId))
             .OrderBy(o => o.Name)
             .ProjectToType<VillageDto>(_mapper.Config)
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);

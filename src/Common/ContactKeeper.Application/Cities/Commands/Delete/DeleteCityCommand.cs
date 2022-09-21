@@ -10,7 +10,7 @@ namespace ContactKeeper.Application.Cities.Commands.Delete;
 
 public class DeleteCityCommand : IRequestWrapper<CityDto>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class DeleteCityCommandHandler : IRequestHandlerWrapper<DeleteCityCommand, CityDto>
@@ -27,7 +27,7 @@ public class DeleteCityCommandHandler : IRequestHandlerWrapper<DeleteCityCommand
     public async Task<ServiceResult<CityDto>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Cities
-            .Where(l => l.Id == request.Id)
+            .Where(l => l.Id.Equals(request.Id))
             .SingleOrDefaultAsync(cancellationToken);
 
         if (entity == null)

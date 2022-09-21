@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ContactKeeper.Application.Cities.Commands.Create;
 using ContactKeeper.Application.Cities.Commands.Delete;
 using ContactKeeper.Application.Common.Exceptions;
@@ -14,7 +15,7 @@ public class DeleteCityTests : TestBase
     [Test]
     public void ShouldRequireValidCityId()
     {
-        var command = new DeleteCityCommand { Id = 99 };
+        var command = new DeleteCityCommand { Id = new Guid() };
 
         FluentActions.Invoking(() =>
             SendAsync(command)).Should().ThrowAsync<NotFoundException>();

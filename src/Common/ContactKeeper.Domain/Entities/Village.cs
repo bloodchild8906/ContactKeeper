@@ -11,7 +11,7 @@ public class Village : AuditableEntity,IHasDomainEvent
 
     public string Name { get; set; }
 
-    public int DistrictId { get; set; }
+    public Guid DistrictId { get; set; }
     public District District { get; set; }
     public List<DomainEvent> DomainEvents { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }

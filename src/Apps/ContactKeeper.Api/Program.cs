@@ -39,12 +39,6 @@ public class Program
                 {
                     await context.Database.MigrateAsync();
                 }
-
-                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
-                await ApplicationDbContextSeed.SeedSampleCityDataAsync(context);
             }
             catch (Exception ex)
             {

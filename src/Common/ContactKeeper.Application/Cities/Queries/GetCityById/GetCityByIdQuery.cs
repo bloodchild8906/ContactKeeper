@@ -9,7 +9,7 @@ namespace ContactKeeper.Application.Cities.Queries.GetCityById;
 
 public class GetCityByIdQuery : IRequestWrapper<CityDto>
 {
-    public int CityId { get; set; }
+    public Guid CityId { get; set; }
 }
 
 public class GetCityByIdQueryHandler : IRequestHandlerWrapper<GetCityByIdQuery, CityDto>
@@ -26,7 +26,7 @@ public class GetCityByIdQueryHandler : IRequestHandlerWrapper<GetCityByIdQuery, 
     public async Task<ServiceResult<CityDto>> Handle(GetCityByIdQuery request, CancellationToken cancellationToken)
     {
         var city = await _context.Cities
-            .Where(x => x.Id == request.CityId)
+            .Where(x => x.Id.Equals(request.CityId))
             .Include(d => d.Districts)
             .ThenInclude(v => v.Villages)
             .ProjectToType<CityDto>(_mapper.Config)

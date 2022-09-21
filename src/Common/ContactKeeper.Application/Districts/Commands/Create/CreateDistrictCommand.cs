@@ -10,7 +10,7 @@ public class CreateDistrictCommand : IRequestWrapper<DistrictDto>
 {
     public string Name { get; set; }
 
-    public int CityId { get; set; }
+    public Guid CityId { get; set; }
 }
 
 public class CreateDistrictCommandHandler : IRequestHandlerWrapper<CreateDistrictCommand, DistrictDto>

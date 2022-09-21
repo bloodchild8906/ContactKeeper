@@ -10,7 +10,7 @@ public class CityDto : IRegister
         Districts = new List<DistrictDto>();
     }
 
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
 
@@ -24,6 +24,6 @@ public class CityDto : IRegister
     {
         config.NewConfig<City, CityDto>()
         .Map(dest => dest.CreateDate,
-            src => $"{src.CreateDate.ToShortDateString()}");
+            src => $"");
     }
 }
